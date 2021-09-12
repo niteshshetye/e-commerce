@@ -5,12 +5,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import NavBar from './components/NavBar/NavBar'
 import Home from './components/Home/Home'
 import ProductDetail from './components/ProductDetail/ProductDetail'
-// import Login from './components/Login'
-// import Signup from './components/Signup'
-
-// <Route path='/login' component={Login} />
-                     
-// <Route path='/signup' component={Signup} />
 
 const App = (props) => {
     return (
