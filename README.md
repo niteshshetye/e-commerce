@@ -1,70 +1,169 @@
-# Getting Started with Create React App
+### E-Commerce Project.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# This is e-commerce website which fetch data from fake json server and display on home page.
+# Here to mange the state of website. I use Redux 
 
-## Available Scripts
+### FOLDER STRUCTURE FOR REDUX
 
-In the project directory, you can run:
+# --> **components**
+        --> All Components
+# --> **services**
+        --> Actions
+                --> example_1_Action.js
+                --> example_2_Action.js
+                --> example_3_Action.js  
+        --> Constants
+                --> actionTypes.js
+        --> Reducers
+                --> example_1_Reducer.js
+                --> example_2_Reducer.js
+                --> example_3_Reducer.js 
+                --> rootReducer.js
+        --> store.js
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### WHAT CHANGES HAPPENS IN OUR FILES, LETS EXPLORE EACH OF THEM.
 
-### `npm test`
+**WHAT HAPPEN IN services FOLDER --> Actions FOLDER --> example_1_Action.js**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1) We import actionTypes from actionTypes.js file which created in Constants folder.
+--> import { actionTypes } from '../Constants/actionTypes';
 
-### `npm run build`
+2) Actions are the function which return the object 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3) Inside object there are two properties 
+--> export const action_name_1 = (data) => {
+        return {
+            type: actionTypes.SET_PRODUCTS,
+            payload: data
+        }
+    };
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+and so on .....
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**WHAT HAPPEN IN services FOLDER --> Constants FOLDER --> actionTypes.js**
 
-### `npm run eject`
+1) This file containe the plane object. and its just export that object 
+--> example:
+    export const actionTypes = {
+        SET_PRODUCTS: 'SET_PRODUCTS',
+        SELECTED_PRODUCT: 'SELECTED_PRODUCT',
+        REMOVE_SELECTED_PRODUCT: 'REMOVE_SELECTED_PRODUCT',
+        and so on.....
+    };
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**WHAT HAPPEN IN services FOLDER --> Reducers FOLDER --> example_1_Reducer.js**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1) We import actionTypes from actionTypes.js file which created in Constants folder.
+--> import { actionTypes } from '../Constants/actionTypes';
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+2) Declare the intial State.
+--> const initialState = {
+        state_name: []
+    };
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3) Reducer is a function which take two argument a) state = initialState b) action
 
-## Learn More
+6) Reducer contain the if else or switch loop to perform the opration, as per action.type
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4) Reducer set new State as per the new data comes in action.payload 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5) Reducer return the new state in form of object. 
+--> Example,
+export const productReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case actionTypes.SET_PRODUCTS:
+            return {
+                ...state,
+                products: action.payload
+            }
 
-### Code Splitting
+        case actionTypes.REMOVE_PRODUCTS:
+            return { }     
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+        default:
+            return state
+    }
+}
+and so on....
 
-### Analyzing the Bundle Size
+**WHAT HAPPEN IN services FOLDER --> Reducers FOLDER --> rootReducer.js**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1) we import combineReducers from redux.
+--> import { combineReducers } from "redux";
 
-### Making a Progressive Web App
+2) we import all the reducers present in our website.
+--> import { productReducer } from './productReducer';
+    import { selectedProductReducer } from "./selectedProductReducer";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+3) rootReducer contain the combineReducers function and work something like this
+--> export const rootReducers = combineReducers( {
+        allProducts: productReducer,
+        selectedProduct: selectedProductReducer,
+        and so on.....
+    } )
 
-### Advanced Configuration
+**WHAT HAPPEN IN services FOLDER --> store.js**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1) In one react website only one store will be there.
 
-### Deployment
+2) And one store need only one reducers that why we combine the reducers in one place and act as one reducer.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3) we import createStore form redux to create the store.
+--> import { createStore } from "redux";
 
-### `npm run build` fails to minify
+4) we import rootReducer which alredy combine all the reducers in one place.
+--> import { rootReducers } from "./Reducers";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+5) store is a veriable which assign to the createStore function.
+
+6) createStore function takes parameter a) rootReducer b) initialValue.
+--> const store = createStore(
+        rootReducers, 
+        {}
+        <!-- window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()  -->
+    );
+
+7) And export the store.
+
+**WHAT HAPPEN IN index.js**
+
+1) we import Provider from react-redux.
+--> import { Provider } from 'react-redux';
+
+2) we import store form store file which is in services.
+--> import store from './services/store';
+
+3) index.js wrap the App component with Provider and pass store as props
+--> ReactDOM.render(
+        <Provider store={store}>
+            <App />
+        </Provider>, 
+        document.getElementById('root')
+    )
+
+4) Now our store is created and ready to access in any of the component.
+
+**WHAT HAPPEN IN components Folder**
+
+1) consider any one component in our case lets take ProductList.jsx.
+
+2) In component we need to access the state and dispatch the action to setState.
+
+3) To access the state in functional component we use useSelector from react-redux.
+--> import { useSelector } from 'react-redux';
+
+4) To get the state and store it in local variable.
+--> const variable_name = useSelector((state) => state); <!-- write once -->
+
+5) To dispatch the action in functional component we use useDispatch from react-redux.
+--> import { useDispatch } from 'react-redux';
+
+6) import all actions which dispatch in that component
+--> import {action_name} from '../../services/Actions/productActions'
+
+7) dispatch actions 
+--> const dispatch = useDispatch(); <!-- write once -->
+
+--> dispatch(action_name(data)) <!-- whenever the action need to dispatch -->
